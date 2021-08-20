@@ -942,7 +942,24 @@ void Union(int x, int y, vector<int>&parent, vector<int>&rank) {
 ```
 
 # Prims Algorithm
-
+Given an undirected, connected and weighted graph G(V, E) with V number of vertices (which are numbered from 0 to V-1) and E number of edges.  
+Find and print the total weight of Minimum Spanning Tree (MST) using Prim's algorithm.  
+### Input Format
+```
+First line will contain T(number of test case), each test case follows as. 
+Line 1: Two Integers V and E (separated by space)
+Next E lines : Three integers ei, ej and wi, denoting that there exists an edge between vertex ei and vertex ej with weight wi (separated by space)
+```
+### Output Format
+```
+Weight of MST for each test case in new line.
+```
+### Constraints
+```
+1 <= T <= 10
+2 <= V, E <= 10^5
+1 <= wt <= 10^4
+```
 ### Code
 
 ```
@@ -1012,7 +1029,24 @@ int32_t main()
 ```
 
 # Kruskals Algorithm
-
+Given an undirected, connected and weighted graph G(V, E) with V number of vertices (which are numbered from 0 to V-1) and E number of edges.  
+Find and print the total weight of Minimum Spanning Tree (MST) using Kruskal's algorithm.  
+### Input Format
+```
+First line will contain T(number of test case), each test case follows as. 
+Line 1: Two Integers V and E (separated by space)
+Next E lines : Three integers ei, ej and wi, denoting that there exists an edge between vertex ei and vertex ej with weight wi (separated by space)
+```
+### Output Format
+```
+Weight of MST for each test case in new line.
+```
+### Constraints
+```
+1 <= T <= 10
+2 <= V, E <= 10^5
+1 <= wt <= 10^4
+```
 ### Code
 
 ```
@@ -1085,7 +1119,9 @@ int32_t main()
 ```
 
 # Dijkstra Algorithm
-
+Given an undirected, connected and weighted graph G(V, E) with V number of vertices (which are numbered from 0 to V-1) and E number of edges.  
+Find and print the shortest distance from the source vertex (i.e. Vertex 0) to all other vertices (including source vertex also) using Dijkstra's Algorithm.  
+Print the ith vertex number and the distance from source in one line separated by space. Print different vertices in different lines.  
 ### Code
 
 ```
@@ -1149,7 +1185,7 @@ int32_t main()
 ```
 
 # Bellmanford Algorithm
-
+you are given a weighted directed graph G with n vertices and m edges, and two specified vertex src and des. You want to find the length of shortest paths from vertex src to des. The graph may contain the edges with negative weight.  
 ### Code
 
 ```
@@ -1214,7 +1250,8 @@ int32_t main()
 ```
 
 # Floyd Warshall Algorithm
-
+You are given an undirected weighted graph G with n vertices. And Q queries, each query consists of two integers a and b and you have print the distance of shortest path between a and b.  
+Note: If there is no path between a and b print 10^9  
 ### Code
 
 ```
