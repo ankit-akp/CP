@@ -919,3 +919,485 @@ int32_t main()
 }
 
 ```
+
+# DSU
+
+### Code
+
+```
+int findParent(int node, vector<int>&parent) {
+    if (node == parent[node]) return node;
+    return parent[node] = findParent(parent[node], parent);
+}
+void Union(int x, int y, vector<int>&parent, vector<int>&rank) {
+    x = findParent(x, parent);
+    y = findParent(y, parent);
+    if (rank[x] > rank[y]) parent[y] = x;
+    else if (rank[y] > rank[x]) parent[x] = y;
+    else {
+        parent[y] = x;
+        rank[x]++;
+    }
+}
+```
+
+# Prims Algorithm
+
+### Code
+
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define nl "\n"
+#define mod 1000000007
+#define vvi vector<vector<int>>
+#define vi vector<int>
+#define all(v) v.begin(), v.end()
+#define pii pair<int,int>
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(0);                       \
+    cout.tie(0);
+const int dx4[] = { -1, 0, 1, 0};
+const int dy4[] = {0, 1, 0, -1};
+void precompute() {
+}
+
+void solve() {
+    int n, e; cin >> n >> e;
+    vector<pii> adj[n];
+    for (int i = 0; i < e; i++) {
+        int a, b, w;
+        cin >> a >> b >> w;
+        adj[a].push_back({b, w});
+        adj[b].push_back({a, w});
+    }
+    vector<int>parent(n, -1);
+    vector<int>mst(n, 0);
+    vector<int>key(n, INT_MAX);
+    int ans = 0;
+    key[0] = 0;
+    priority_queue<pii, vector<pii>, greater<pii>> pq;
+    pq.push({0, 0});
+    while (!pq.empty()) {
+        pii cur = pq.top();
+        pq.pop();
+        int node = cur.second;
+        if (mst[node]) continue;
+        mst[node] = 1;
+        ans += key[node];
+        for (auto it : adj[node]) {
+            int v = it.first;
+            int wt = it.second;
+            if (mst[v] == 0 and wt < key[v]) {
+                key[v] = wt;
+                parent[v] = node;
+                pq.push({key[v], v});
+            }
+        }
+    }
+    cout << ans << nl;
+}
+int32_t main()
+{
+    fast
+    int t = 1;
+    cin >> t;
+    precompute();
+    for (int i = 1; i <= t; i++)
+        solve();
+}
+
+```
+
+# Kruskals Algorithm
+
+### Code
+
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define nl "\n"
+#define mod 1000000007
+#define vvi vector<vector<int>>
+#define vi vector<int>
+#define all(v) v.begin(), v.end()
+#define pii pair<int,int>
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(0);                       \
+    cout.tie(0);
+const int dx4[] = { -1, 0, 1, 0};
+const int dy4[] = {0, 1, 0, -1};
+void precompute() {
+}
+struct edges
+{
+    int x, y, wt;
+};
+int findParent(int node, vector<int>&parent) {
+    if (node == parent[node]) return node;
+    return parent[node] = findParent(parent[node], parent);
+}
+void Union(int x, int y, vector<int>&parent, vector<int>&rank) {
+    x = findParent(x, parent);
+    y = findParent(y, parent);
+    if (rank[x] > rank[y]) parent[y] = x;
+    else if (rank[y] > rank[x]) parent[x] = y;
+    else {
+        parent[y] = x;
+        rank[x]++;
+    }
+}
+bool comp(edges p1, edges p2) {
+    return p1.wt < p2.wt;
+}
+void solve() {
+    int n, e; cin >> n >> e;
+    vector<edges> adj(e);
+    for (int i = 0; i < e; i++) {
+        cin >> adj[i].x >> adj[i].y >> adj[i].wt;
+    }
+    sort(all(adj), comp);
+    vector<int>parent(n), rank(n, 0);
+    for (int i = 0; i < n; i++) parent[i] = i;
+    int cost = 0;
+    for(auto &i:adj) {
+        if (findParent(i.x,parent) != findParent(i.y,parent)) {
+            cost += i.wt;
+            Union(i.x, i.y, parent, rank);
+        }
+    }
+    cout << cost << nl;
+}
+int32_t main()
+{
+    fast
+    int t = 1;
+    cin >> t;
+    precompute();
+    for (int i = 1; i <= t; i++)
+        solve();
+}
+
+```
+
+# Dijkstra Algorithm
+
+### Code
+
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define nl "\n"
+#define mod 1000000007
+#define vvi vector<vector<int>>
+#define vi vector<int>
+#define all(v) v.begin(), v.end()
+#define pii pair<int,int>
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(0);                       \
+    cout.tie(0);
+const int dx4[] = { -1, 0, 1, 0};
+const int dy4[] = {0, 1, 0, -1};
+void precompute() {
+}
+
+void solve() {
+    int n, e; cin >> n >> e;
+    vector<pii> adj[n];
+    for (int i = 0; i < e; i++) {
+        int a, b, w;
+        cin >> a >> b >> w;
+        adj[a].push_back({b, w});
+        adj[b].push_back({a, w});
+    }
+    vector<int>dist(n, INT_MAX);
+    priority_queue<pii, vector<pii>, greater<pii>>pq;
+    dist[0] = 0;
+    pq.push({0, 0});
+    while (!pq.empty()) {
+        pii cur = pq.top();
+        pq.pop();
+        int node = cur.second;
+        int nodeDistance = cur.first;
+        for (auto it : adj[node]) {
+            if (nodeDistance + it.second < dist[it.first]) {
+                dist[it.first] = nodeDistance + it.second;
+                pq.push({dist[it.first], it.first});
+            }
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        cout << i << " " << dist[i] << nl;
+    }
+}
+int32_t main()
+{
+    fast
+    int t = 1;
+    cin >> t;
+    precompute();
+    for (int i = 1; i <= t; i++)
+        solve();
+}
+
+```
+
+# Bellmanford Algorithm
+
+### Code
+
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define nl "\n"
+#define mod 1000000007
+#define vvi vector<vector<int>>
+#define vi vector<int>
+#define all(v) v.begin(), v.end()
+#define pii pair<int,int>
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(0);                       \
+    cout.tie(0);
+const int inf = 1e9;
+const int dx4[] = { -1, 0, 1, 0};
+const int dy4[] = {0, 1, 0, -1};
+void precompute() {
+}
+struct node {
+    int u, v, wt;
+};
+void solve() {
+    int n, m; cin >> n >> m;
+    int src, dest; cin >> src >> dest;
+    vector<node>edges(m);
+    for (int i = 0; i < m; i++) cin >> edges[i].u >> edges[i].v >> edges[i].wt;
+    vi dist(n + 1,inf);
+    dist[src] = 0;
+    for (int i = 1; i <= n - 1; i++) {
+        for (auto it : edges) {
+            int u = it.u, v = it.v, w = it.wt;
+            if (dist[u] != inf and dist[u] + w < dist[v]) {
+                dist[v] = dist[u] + w;
+            }
+        }
+    }
+    int f = 0;
+    for (auto it : edges) {
+        int u = it.u, v = it.v, w = it.wt;
+        if (dist[u] != inf and dist[u] + w < dist[v]) {
+            f = 1;
+            break;
+        }
+    }
+    if (!f) cout << dist[dest] << nl;
+    else cout << 1000000000 << nl;
+
+}
+int32_t main()
+{
+    fast
+    int t = 1;
+    cin >> t;
+    precompute();
+    for (int i = 1; i <= t; i++)
+        solve();
+}
+
+```
+
+# Floyd Warshall Algorithm
+
+### Code
+
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define nl "\n"
+#define mod 1000000007
+#define vvi vector<vector<int>>
+#define vi vector<int>
+#define all(v) v.begin(), v.end()
+#define pii pair<int,int>
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(0);                       \
+    cout.tie(0);
+
+const int dx4[] = { -1, 0, 1, 0};
+const int dy4[] = {0, 1, 0, -1};
+void precompute() {
+}
+
+void solve() {
+    int n, m; cin >> n >> m;
+    int inf = 1000000000;
+    vvi dist(n + 1, vi(n + 1, 0));
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (i == j) dist[i][j] = 0;
+            else dist[i][j] = inf;
+        }
+    }
+    for (int i = 0; i < m; i++) {
+        int x, y, wt;
+        cin >> x >> y >> wt;
+        dist[x][y] = min(dist[x][y], wt);
+        dist[y][x] = dist[x][y];
+        //cout << "#" << dist[x][y] << " " << dist[y][x] << nl;
+    }
+    for (int k = 1; k <= n; k++) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (dist[i][k] != inf and dist[k][j] != inf and dist[i][j] > (dist[i][k] + dist[k][j])) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+    int q; cin >> q;
+    while (q--) {
+        int x, y;
+        cin >> x >> y;
+        cout << dist[x][y] << nl;
+    }
+}
+int32_t main()
+{
+    fast
+    int t = 1;
+    cin >> t;
+    precompute();
+    for (int i = 1; i <= t; i++)
+        solve();
+}
+
+```
+
+# Cycle detection in undirected graph using bfs
+
+# Cycle detection in undirected graph using dfs
+
+# Cycle detection in directed graph
+
+# Permutation Swap
+
+Kevin has a permutation P of N integers 1, 2, ..., N, but he doesn't like it. Kevin wants to get a permutation Q.  
+He also believes that there are M good pairs of integers (ai, bi). Kevin can perform following operation with his permutation:  
+Swap Px and Py only if (x, y) is a good pair.  
+Help him and tell if Kevin can obtain permutation Q using such operations.
+
+### Input Format
+
+```
+The first line of input will contain an integer T, denoting the number of test cases.
+
+Each test case starts with two space-separated integers N and M. The next line contains N space-separated integers Pi. The next line contains N space-separated integers Qi. Each of the next M lines contains two space-separated integers ai and bi.
+```
+
+### Output Format
+
+```
+For every test case output "YES" (without quotes) if Kevin can obtain permutation Q and "NO" otherwise.
+```
+
+### Constraints
+
+```
+1 ≤ T ≤ 10
+2 ≤ N ≤ 100000
+1 ≤ M ≤ 100000
+1 ≤ Pi, Qi ≤ N. Pi and Qi are all distinct.
+1 ≤ ai < bi ≤ N
+Time Limit: 1 second
+```
+
+### Code
+
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define nl "\n"
+#define mod 1000000007
+#define vvi vector<vector<int>>
+#define vi vector<int>
+#define all(v) v.begin(), v.end()
+#define pii pair<int,int>
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(0);                       \
+    cout.tie(0);
+const int inf = 2e18;
+const int dx4[] = { -1, 0, 1, 0};
+const int dy4[] = {0, 1, 0, -1};
+void precompute() {
+}
+struct node {
+    int u, v;
+};
+int findParent(int node, vector<int>&parent) {
+    if (node == parent[node]) return node;
+    return parent[node] = findParent(parent[node], parent);
+}
+void Union(int x, int y, vector<int>&rank, vector<int>&parent) {
+    x = findParent(x, parent);
+    y = findParent(y, parent);
+    if (rank[x] > rank[y]) parent[y] = x;
+    else if (rank[y] > rank[x]) parent[x] = y;
+    else {
+        parent[y] = x;
+        rank[x]++;
+    }
+}
+void solve() {
+    int n, m; cin >> n >> m;
+    vector<int>a(n + 1), q(n + 1);
+    for (int i = 1; i <= n; i++) cin >> a[i];
+    for (int i = 1; i <= n; i++) cin >> q[i];
+    vector<node> adj(m);
+    for (int i = 0; i < m; i++)
+        cin >> adj[i].u >> adj[i].v;
+
+    vector<int>rank(n + 1, 0);
+    vector<int>parent(n + 1);
+    for (int i = 1; i <= n; i++) {
+        parent[i] = i;
+    }
+    for (int i = 0; i < m; i++) {
+        Union(adj[i].u, adj[i].v, rank, parent);
+    }
+    vector<pii>b(n + 1);
+    for (int i = 1; i <= n; i++) {
+        b[a[i]].first = i;
+        b[q[i]].second = i;
+
+    }
+    for (int i = 1; i <= n; i++) {
+        if (b[i].first == b[i].second) continue;
+        if (findParent(b[i].first, parent) != findParent(b[i].second, parent)) {
+            cout << "NO\n";
+            return;
+        }
+    }
+    cout << "YES\n";
+}
+int32_t main()
+{
+    fast
+    int t = 1;
+    cin >> t;
+    precompute();
+    for (int i = 1; i <= t; i++)
+        solve();
+}
+
+```

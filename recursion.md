@@ -212,3 +212,77 @@ void printKeypad(int num){
     
 }
 ```
+# MergeSort
+```
+#include<bits/stdc++.h>
+using namespace std;
+void merge(vector<int>&arr,int s,int mid,int e){
+    int n1=mid-s+1,n2=e-mid;
+    vector<int>a(n1),b(n2);
+    for(int i=0; i<n1; i++) a[i]=arr[s+i];
+    for(int i=0; i<n2; i++) b[i]=arr[mid+1+i];
+    int i=0,j=0,k=s;
+    while(i<n1 and j<n2){
+        if(a[i]<b[j]) arr[k++]=a[i++];
+        else arr[k++]=b[j++];
+    }
+    while(i<n1) arr[k++]=a[i++];
+    while(j<n2) arr[k++]=b[j++];
+}
+void mergesort(vector<int>&a ,int s,int e){
+    if(s>=e) return;
+    int mid=s+(e-s)/2;
+    mergesort(a,s,mid);
+    mergesort(a,mid+1,e);
+    merge(a,s,mid,e);
+}
+int main(){
+    
+   int t; cin>>t; 
+	while(t--){
+        int n; cin>>n;
+        vector<int>a(n);
+        for(int i=0; i<n; i++) cin>>a[i];
+        mergesort(a,0,n-1);
+        for(int i=0; i<n; i++) cout<<a[i]<<" ";
+        cout<<'\n';
+    }
+    return 0;
+}
+```
+# QuickSort
+```
+#include<bits/stdc++.h>
+using namespace std;
+int partition(vector<int>&a,int s,int e){
+    int pivot=a[e];
+    int i=s-1;
+    for(int j=s; j<=e-1; j++){
+        if(a[j]<pivot){
+            i++;
+            swap(a[i],a[j]);
+        }
+    }
+    swap(a[i+1],a[e]);
+    return i+1;
+}
+void quicksort(vector<int>&a,int s,int e){
+    if(s>=e) return;
+    int pos=partition(a,s,e);
+    quicksort(a,s,pos-1);
+    quicksort(a,pos+1,e);
+}
+int main(){
+    
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        vector<int>a(n);
+        for(int i=0; i<n; i++) cin>>a[i];
+        quicksort(a,0,n-1);
+        for(int i=0; i<n; i++) cout<<a[i]<<" ";
+        cout<<endl;
+    }
+    return 0;
+}
+```
