@@ -18,7 +18,7 @@ void solve(vector<vector<int>> &a,int n,int idx){
             a[idx][i]=1;
             row[idx]=1;
             column[i]=1;
-            d1[i+idx]=1;
+            d1[i+idx]=1; //(col+row)
             d2[n-1+i-idx]=1; //(n-1+col-row)
 
             solve(a,n,idx+1);
