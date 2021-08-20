@@ -152,14 +152,16 @@ cd
 ce
 cf
 ```
+
 Method 1
+
 ```
 #include<bits/stdc++.h>
 using namespace std;
 #define int long long
 string keyPad[] = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 int kp(int n, vector<string>&output) {
-    if (n == 0 or n==1) {
+    if n == 0 or n==1 or n==10 or n==11) {
         output.push_back("");
         return 1;
     }
@@ -191,28 +193,33 @@ int32_t main(){
     return 0;
 }
 ```
+
 Method 2
+
 ```
 string keyPad[] = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 void kp(int n, string output) {
-    if (n == 0) {
+    if (n == 0 or n == 1 or n == 10 or n == 11) {
         cout << output << '\n';
         return;
     }
     int d = n % 10;
-    if (d != 1 and d != 0) {
+    if (d == 0 or d == 1) kp(n / 10, output);
+    else {
         string cur = keyPad[d];
         for (int i = 0; i < cur.size(); i++) kp(n / 10, cur[i] + output);
     }
 }
 void printKeypad(int num){
-     
+
      string output="";
      kp(num, output);
-    
+
 }
 ```
+
 # MergeSort
+
 ```
 #include<bits/stdc++.h>
 using namespace std;
@@ -237,8 +244,8 @@ void mergesort(vector<int>&a ,int s,int e){
     merge(a,s,mid,e);
 }
 int main(){
-    
-   int t; cin>>t; 
+
+   int t; cin>>t;
 	while(t--){
         int n; cin>>n;
         vector<int>a(n);
@@ -250,7 +257,9 @@ int main(){
     return 0;
 }
 ```
+
 # QuickSort
+
 ```
 #include<bits/stdc++.h>
 using namespace std;
@@ -273,7 +282,7 @@ void quicksort(vector<int>&a,int s,int e){
     quicksort(a,pos+1,e);
 }
 int main(){
-    
+
     int t; cin>>t;
     while(t--){
         int n; cin>>n;

@@ -1,4 +1,5 @@
 # N Queen
+
 ```
 #include<bits/stdc++.h>
 using namespace std;
@@ -11,36 +12,38 @@ void solve(vector<vector<int>> &a,int n,int idx){
         cout<<endl;
         return;
     }
-    
+
     for(int i=0; i<n; i++){
         if(column[i]!=1 and row[idx]!=1 and d1[i+idx]!=1 and d2[n-1+i-idx]!=1){
             a[idx][i]=1;
             row[idx]=1;
             column[i]=1;
             d1[i+idx]=1;
-            d2[n-1+i-idx]=1;
-            
+            d2[n-1+i-idx]=1; //(n-1+col-row)
+
             solve(a,n,idx+1);
-            
+
             a[idx][i]=0;
             row[idx]=0;
             column[i]=0;
             d1[i+idx]=0;
             d2[n-1+i-idx]=0;
-            
+
         }
     }
 }
 int main(){
-    
+
     int n; cin>>n;
     vector<vector<int>>a(n,vector<int>(n,0));
-    
+
     solve(a,n,0);
     return 0;
 }
 ```
+
 # Sodoku Solver
+
 ```
 #include<bits/stdc++.h>
 using namespace std;
@@ -70,7 +73,7 @@ bool solve(vector<vector<int>> &a){
     return true;
 }
 int main(){
-    
+
     vector<vector<int>>a(9,vector<int>(9,0));
     for(int i=0; i<9; i++){
         for(int j=0; j<9; j++) cin>>a[i][j];
@@ -80,12 +83,14 @@ int main(){
     return 0;
 }
 ```
+
 # Rat in a Maze
+
 ```
 /*
 	Note:
 	To get all the test cases accepted, make recursive calls in following order: Top, Down, Left, Right.
-	This means that if the current cell is (x, y), then order of calls should be: top cell (x-1, y), 
+	This means that if the current cell is (x, y), then order of calls should be: top cell (x-1, y),
 	down cell (x+1, y), left cell (x, y-1) and right cell (x, y+1).
 */
 #include<bits/stdc++.h>
@@ -119,14 +124,19 @@ int main() {
     for(int i=0; i<n; i++){
         for(int j=0; j<n; j++) cin>>a[i][j];
     }
-    
+
     solve(a,n,0,0);
 	return 0;
 }
 
 ```
+
 # Combinational sum 1
+
 # Combinational sum 2
+
 # subset sum 1
+
 # subset sum 2
+
 # Permutation of an array
