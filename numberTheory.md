@@ -34,10 +34,18 @@ vector<bool> prime(1000001, true);
 Time Complexity:O(Nlog(logN))
 
 ```
+    Method 1
     vi pf(1000001, 0);
     for (int i = 2; i <= 1000000; i++) {
         if (pf[i] == 0) {
             for (int j = i; j <= 1000000; j+=i) pf[j]++;
+        }
+    }
+    Method 2
+    vi pf(1000001, 0);
+    for (int i = 2; i <= 1000000; i++) {
+        if (pf[i] == 0) {
+            for (int j = 1; i*j <= 1000000; j++) pf[i*j]++;
         }
     }
 
@@ -141,6 +149,111 @@ int32_t main()
     int t = 1;
     //cin >> t;
 
+    for (int i = 1; i <= t; i++)
+        solve();
+}
+```
+
+# Sachin and Varun
+
+Varun and you are talking about a movie that you have recently watched while Sachin is busy teaching Number Theory. Sadly, Sachin caught Varun talking to you and asked him to answer his question in order to save himself from punishment. The question says:
+Given two weights of a and b units, in how many different ways you can achieve a weight of d units using only the given weights? Any of the given weights can be used any number of times (including 0 number of times).  
+Since Varun is not able to answer the question, he asked you to help him otherwise he will get punished.  
+Note: Two ways are considered different if either the number of times a is used or a number of times b is used is different in the two ways.
+
+### Input Format
+
+```
+The first line of input consists of an integer
+T denoting the number of test cases.
+Each test case consists of only one line containing three space-separated integers a, b and d.
+```
+
+### Output Format
+
+```
+For each test case, print the answer in a separate line.
+```
+
+### Constraints
+
+```
+1 ≤ T ≤ 10 ^ 5
+
+1 ≤ a < b ≤ 10 ^ 9
+
+0 ≤ d ≤ 10 ^ 9
+```
+
+### Code
+
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define nl "\n"
+#define mod 1000000007
+#define vvi vector<vector<int>>
+#define vi vector<int>
+#define all(v) v.begin(), v.end()
+#define pii pair<int,int>
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(0);                       \
+    cout.tie(0);
+vi spf(1000011, 0);
+vi primes;
+vector<bool>prime(1000011, true);
+void precompute() {
+}
+int gcd(int a, int b, int &x, int &y) {
+    if (b == 0) {
+        x = 1;
+        y = 0;
+        return a;
+    }
+    int x1, y1;
+    int d = gcd(b, a % b, x1, y1);
+    x = y1;
+    y = x1 - y1 * (a / b);
+    return d;
+}
+int modInv(int a, int b) {
+    int x, y;
+    int g = gcd(a, b, x, y);
+    x = (x % b + b) % b;
+    return x;
+}
+void solve() {
+    int a, b, d; cin >> a >> b >> d;
+    int g = __gcd(a, b);
+    if (d % g) {
+        cout << 0 << nl;
+        return;
+    }
+    if (d == 0) {
+        cout << 1 << nl;
+        return;
+    }
+    a = a / g;
+    b = b / g;
+    d = d / g;
+    int x = modInv(b, a);
+    int f = d / b;
+    int s = ((d % a) * x) % a;
+    int n = (f - s) / a;
+    if (d >= b * s) cout << n + 1 << nl;
+    else cout << 0 << nl;
+
+
+}
+
+int32_t main()
+{
+    fast
+    int t = 1;
+    cin >> t;
+    precompute();
     for (int i = 1; i <= t; i++)
         solve();
 }
@@ -420,3 +533,55 @@ int32_t main()
         solve();
 }
 ```
+
+# Matrix Exponentiation
+
+Matrix exponentiation says that we have to find a matrix such that our recurrence
+relation at kth state when multiplied by the matrix gives the (k + 1)th state of the
+recurrence relation.
+
+## Finding Nth fibonacci using matrix exponentiation
+
+### Code
+
+```
+#include<iostream>
+using namespace std;
+void multiply(int A[2][2],int M[2][2]){
+int firstValue = A[0][0] * M[0][0] + A[0][1] * M[1][0];
+int secondValue = A[0][0] * M[0][1] + A[0][1] * M[1][1];
+int thirdValue = A[1][0] * M[0][0] + A[1][1] * M[1][0];
+int fourthValue = A[1][0] * M[0][1] + A[1][1] * M[1][1];
+A[0][0] =firstValue;
+A[0][1] = secondValue;
+A[1][0] = thirdValue;
+A[1][1] = fourthValue;
+}
+void power(int A[2][2],int n){
+if(n==1){
+return;
+}
+power(A,n/2);
+multiply(A,A);
+if(n%2 !=0){
+int F[2][2] = {{1,1},{1,0}};
+multiply(A,F);
+}
+}
+int getFibonacci(int n){
+if(n==0 || n==1){
+return n;
+}
+int A[2][2] = {{1,1},{1,0}};
+power(A,n-1);
+return A[0][0];
+}
+int main(){
+int n;
+cin >> n;
+cout << getFibonacci(n)<<endl;
+return 0;
+}
+```
+# Order
+- 
