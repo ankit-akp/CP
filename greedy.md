@@ -585,10 +585,85 @@ int32_t main()
 
 # Minimum number of platforms required for a railway
 
+Given arrival and departure times of all trains that reach a railway station. Find the minimum number of platforms required for the railway station so that no train is kept waiting.  
+Consider that all the trains arrive on the same day and leave on the same day. Arrival and departure time can never be the same for a train but we can have arrival time of one train equal to departure time of the other. At any given instance of time, same platform can not be used for both departure of a train and arrival of another train. In such cases, we need different platforms.
+
+### Constraints
+
+```
+1 ≤ n ≤ 50000
+0000 ≤ A[i] ≤ D[i] ≤ 2359
+```
+
 ### Code
 
 ```
+    int findPlatform(int arr[], int dep[], int n)
+    {
+    	sort(arr,arr+n);
+    	sort(dep,dep+n);
+    	int mx=1,cnt=1,i=1,j=0;
+    	while(i<n and j<n){
+    	    if(arr[i]<=dep[j]){
+    	        cnt++;
+    	        i++;
+    	    }
+    	    else if(arr[i]>dep[j]) {
+    	        j++;
+    	        cnt--;
+    	    }
+    	    mx=max(mx,cnt);
+    	}
+    	return mx;
+    }
+```
 
+# Job Sequencing Problem
+
+Given a set of N jobs where each jobi has a deadline and profit associated with it. Each job takes 1 unit of time to complete and only one job can be scheduled at a time. We earn the profit if and only if the job is completed by its deadline. The task is to find the number of jobs done and the maximum profit.  
+Note: Jobs will be given in the form (Jobid, Deadline, Profit) associated with that Job.
+
+### Constraints
+
+```
+1 <= N <= 105
+1 <= Deadline <= 100
+1 <= Profit <= 500
+```
+
+### Code
+
+```
+class Solution
+{
+    public:
+    //Function to find the maximum profit and the number of jobs done.
+    static bool compare(struct Job j1,struct Job j2){
+        return j1.profit>j2.profit;
+    }
+    vector<int> JobScheduling(Job arr[], int n)
+    {
+        sort(arr,arr+n,compare);
+        int mxD=-1;
+        for(int i=0; i<n; i++) mxD=max(mxD,arr[i].dead);
+        vector<int>order(mxD+1,-1);
+        int mxP=0,cnt=0;
+        for(int i=0; i<n; i++){
+            for(int j=arr[i].dead; j>=1; j--){
+                if(order[j]==-1){
+                    mxP+=arr[i].profit;
+                    order[j]=arr[i].id;
+                    cnt++;
+                    break;
+                }
+            }
+        }
+        vector<int>ans(2);
+        ans[0]=cnt;
+        ans[1]=mxP;
+        return ans;
+    }
+};
 ```
 
 # Order
@@ -601,3 +676,4 @@ int32_t main()
 - Problem Discussion
 - King Arthur and Excalibur
 - Minimum number of platforms required for a railway
+- Job Sequencing Problem
