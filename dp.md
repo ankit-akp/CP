@@ -1,9 +1,9 @@
 # Note
 
-Step 1: In order to solve DP problem , think for recurrence relation. If you know the recurrence relation for the problem then your problem will be solved easily.
-Step 2: Recursion + Memoization
-Step 3: Find the relation between problem and subproblem in order to fill dp table.
-DP table bharne ke liye pehle ye dekh lo ki dp[n][m](Final answer) kaise fill hoga. Isse idea lg jayega ki table kaise fill hona h. Phir dp[i][j] ke liye aaram se code likh payenge.
+Step 1: In order to solve DP problem , think for recurrence relation. If you know the recurrence relation for the problem then your problem will be solved easily.  
+Step 2: Recursion + Memoization  
+Step 3: Find the relation between problem and subproblem in order to fill dp table.  
+DP table bharne ke liye pehle ye dekh lo ki dp[n][m](Final answer) kaise fill hoga. Isse idea lg jayega ki table kaise fill hona h. Phir dp[i][j] ke liye aaram se code likh payenge.  
 
 # Fibonacci
 

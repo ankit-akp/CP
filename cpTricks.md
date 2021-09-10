@@ -143,11 +143,82 @@ int32_t main()
         solve();
 }
 ```
+
+# https://www.codechef.com/problems/COWA19B
+
+Given a number N, which is the size of array where indices are from 1 to N . Initially all the elements of array are 0 . Q queries are given . Each query contains two variables L and R . For each query you have to perform the following operation : for each index i where L<=i<=R you have to add a value of of (i-L+1) to the array element at index i . After performing Q queries, a number M is given. It is followed by M number of indices (I) where, for each index you have to output the value of element present in that index (I) of array.
+
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define nl "\n"
+#define mod 1000000007
+#define vvi vector<vector<int>>
+#define vi vector<int>
+#define all(v) v.begin(), v.end()
+#define pii pair<int,int>
+#define F first
+#define S second
+#define fast                          \
+        ios_base::sync_with_stdio(false); \
+        cin.tie(0);                       \
+        cout.tie(0);
+inline size_t key(int i, int j) {return (size_t) i << 32 | (unsigned int) j;}
+
+void precompute() {
+}
+struct node
+{
+    int live, damage, index;
+};
+bool comp(node p1, node p2) {
+    p1.damage > p2.damage;
+}
+void solve() {
+    int n; cin >> n;
+    vi a(n + 1, 0);
+    vi cnt(n + 2, 0);
+    vi ans(n + 2, 0);
+    int q; cin >> q;
+    while (q--) {
+        int l, r; cin >> l >> r;
+        cnt[l]++;
+        cnt[r + 1]--;
+        ans[r + 1] -= r - l + 1;
+    }
+    for (int i = 1; i <= n; i++) cnt[i] += cnt[i - 1];
+    for (int i = 1; i <= n; i++) ans[i] += ans[i - 1] + cnt[i];
+    int m; cin >> m;
+    while (m--) {
+        int x;
+        cin >> x;
+        cout << ans[x] << nl;
+    }
+
+
+}
+
+int32_t main()
+{
+    fast
+    int t = 1;
+    //cin >> t;
+    precompute();
+    cout << setprecision(6) << fixed;
+    for (int i = 1; i <= t; i++)
+        solve();
+}
+```
+
 # Substring deletion in binary string
+
 You perform the following operation until the string becomes empty: choose some consecutive substring of equal characters, erase it from the string and glue the remaining two parts together (any of them can be empty) in the same order.
 
 Trick: Here if we h M substrings of equal characters then floor(M/2)+1 is the minimum number of operations for which the entire string can be deleted.
+
 # Maximum Subarray
+
 ```
 pii maxSubarray(vi &a, int n) {
     int cur = 0, maxi = INT_MIN, e = 0;
@@ -168,7 +239,9 @@ pii maxSubarray(vi &a, int n) {
     return pii(s, e);
 }
 ```
+
 # Minimum Subarray
+
 ```
 pii minSubarray(vi &a, int n) {
     vi b(all(a));
