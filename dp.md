@@ -8,6 +8,7 @@ DP table bharne ke liye pehle ye dekh lo ki dp[n][m](Final answer) kaise fill ho
 # Fibonacci
 
 # Longest Increasing Subsequence
+output[i] will store length of LIS ending at index i  
 
 ```
 #include <bits/stdc++.h>
@@ -39,6 +40,72 @@ int32_t main()
 {
     int t = 1;
     //cin >> t;
+    for (int i = 1; i <= t; i++)
+        solve();
+}
+```
+# Largest Bitonic Subsequence
+You are given an array of positive integers as input. Write a code to return the length of the largest such subsequence in which the values are arranged first in strictly ascending order and then in strictly descending order.  
+Such a subsequence is known as bitonic subsequence. A purely increasing or purely decreasing subsequence will also be considered as a bitonic sequence with the other part empty.  
+Note that the elements in bitonic subsequence need not be consecutive in the given array but the order should remain same.  
+### Input Format
+```
+First line will contain T (number of test case), each test is consists of two lines. 
+Line 1 : A positive Integer N, i.e., the size of array
+Line 2 : N space-separated integers as elements of the array 
+```
+### Output Format
+```
+Length of Largest Bitonic subsequence for each test case in a newline.
+```
+### Constraints
+```
+1 <= T <= 10
+1<= N <= 5000
+```
+### Code
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define nl "\n"
+
+int lbs(vector<int>&a, int n) {
+    vector<int>outputi(n), outputd(n);
+    outputi[0] = 1;
+    outputd[n - 1] = 1;
+    for (int i = 1; i < n; i++) {
+        int ans = 0;
+        for (int j = 0; j < i; j++) {
+            if (a[i] > a[j]) ans = max(ans, outputi[j]);
+        }
+        outputi[i] = ans + 1;
+    }
+    for (int i = n - 2; i >= 0; i--) {
+        int ans = 0;
+        for (int j = i + 1; j < n; j++) {
+            if (a[i] > a[j]) ans = max(ans, outputd[j]);
+        }
+        outputd[i] = ans + 1;
+    }
+    int ans = 0;
+    for (int i = 0; i < n; i++) {
+        ans = max(ans, outputi[i] + outputd[i]);
+    }
+
+    return ans - 1;
+}
+void solve() {
+    int n; cin >> n;
+    vector<int>a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    cout << lbs(a, n) << nl;
+}
+
+int32_t main()
+{
+    int t = 1;
+    cin >> t;
     for (int i = 1; i <= t; i++)
         solve();
 }
@@ -86,8 +153,9 @@ int32_t main()
 You are given an infinite supply of coins of each of denominations D = {D0, D1, D2, D3, ...... Dn-1}. You need to figure out the total number of ways W, in which you can make a change for Value V using coins of denominations D.
 Note : Return 0, if change isn't possible.
 W can be pretty large so output the answer % mod(10^9 + 7)
+Note: If deno[i]+deno[i+1]<=deno[i+2] then greedy will work otherwise we have to go for dp solution.  
 
-## Input Format
+### Input Format
 
 ```
 First line will contain T (number of test case), each test case is consists of 3 three lines.
@@ -96,7 +164,7 @@ Line 2 : N integers i.e. n denomination values
 Line 3 : Value V
 ```
 
-## Recursicve
+### Recursicve
 
 ```
 #include <bits/stdc++.h>
@@ -138,7 +206,7 @@ int32_t main()
 }
 ```
 
-## Iterative
+### Iterative
 
 ```
 #include <bits/stdc++.h>
@@ -177,6 +245,8 @@ int32_t main()
         solve();
 }
 ```
+### Note
+Difference between staircase problem and coinchange problem is 1 1 2 , 2 1 1 these permutation is treated as different in staircase problem but in coinchange problem they will be consider as same permutation.  
 
 # Min Cost
 
@@ -218,6 +288,7 @@ Note: You can only move either down or right at any point in time.
     int minPathSum(vector<vector<int>>& input) {
         int r=input.size(),c=input[0].size();
         vector<vector<int>> dp(r,vector<int>(c,0));
+        // dp[i][j] will store min cost to reach r-1,c-1(target position) from i,j
         dp[r-1][c-1]=input[r-1][c-1];
         for(int i=r-2; i>=0; i--) dp[i][c-1]=dp[i+1][c-1]+input[i][c-1];
         for(int i=c-2; i>=0; i--) dp[r-1][i]=dp[r-1][i+1]+input[r-1][i];
@@ -329,8 +400,7 @@ int32_t main()
 
 Samantha and Sam are playing a numbers game. Given a number as a string, no leading zeros, determine the sum of all integer values of substrings of the string.
 
-Given an integer as a string, sum all of its substrings cast as integers. As the number may become large, return the value modulo 1000000007.
-
+Given an integer as a string, sum all of its substrings cast as integers. As the number may become large, return the value modulo 1000000007.  
 ```
 #define mod 1000000007
 int substrings(string str) {
@@ -815,7 +885,7 @@ int32_t main()
 ```
 
 ## Iterative Code
-
+Here dp[i][j] means end se s1 me i characters reh rahe h aur s2 me end se j character reh rahe h.
 ```
 #include <bits/stdc++.h>
 using namespace std;
@@ -835,7 +905,7 @@ void solve() {
     vvi dp(m + 1, vi(n + 1, 0));
     for (int i = 1; i <= m; i++) {
         for (int j = 1; j <= n; j++) {
-            if (str1[i - 1] == str2[j - 1]) {
+            if (str1[m-i] == str2[n-j]) {
                 dp[i][j] = 1 + dp[i - 1][j - 1];
             }
             else dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
