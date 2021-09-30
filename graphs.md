@@ -1461,3 +1461,223 @@ int32_t main()
 }
 
 ```
+
+# Rat in maze
+
+Consider a rat placed at (0, 0) in a square matrix of order N \* N. It has to reach the destination at (N - 1, N - 1). Find all possible paths that the rat can take to reach from source to destination. The directions in which the rat can move are 'U'(up), 'D'(down), 'L' (left), 'R' (right). Value 0 at a cell in the matrix represents that it is blocked and rat cannot move to it while value 1 at a cell in the matrix represents that rat can be travel through it.  
+Note: In a path, no cell can be visited more than one time.
+
+### Code
+
+```
+void dfs(vector<vector<int>>&m,int n,vector<vector<int>>&vis,vector<string>&ans,int x,int y,string &path){
+        if (x == n - 1 and y == n - 1) {
+        ans.push_back(path);
+        //cout << path << nl;
+        return;
+    }
+    vis[x][y] = 1;
+
+    const int dx[] = {1, 0, 0, -1};
+    const int dy[] = {0, -1, 1, 0};
+    for (int i = 0; i < 4; i++) {
+        if (x + dx[i] >= 0 and x + dx[i] < n and y + dy[i] >= 0 and y + dy[i] < n) {
+            if (vis[x + dx[i]][y + dy[i]] == 0 and m[x + dx[i]][y + dy[i]] == 1) {
+                if (i == 0) path += 'D';
+                else if (i == 1) path += 'L';
+                else if (i == 2) path += 'R';
+                else if (i == 3) path += 'U';
+                dfs(m, n, vis, ans, x + dx[i], y + dy[i], path);
+                path.pop_back();
+
+            }
+        }
+    }
+    vis[x][y] = 0;
+    }
+vector<string> findPath(vector<vector<int>> &m, int n) {
+    vector<vector<int>>vis(n, vector<int>(n, 0));
+    vector<string>ans;
+    string path = "";
+    if(m[0][0]==0){
+        ans.push_back("-1");
+        return ans;
+    }
+    dfs(m, n, vis, ans, 0, 0, path);
+        return ans;
+    }
+```
+
+# Steps by Knight Tour
+
+Given a square chessboard, the initial position of Knight and position of a target. Find out the minimum steps a Knight will take to reach the target position.  
+Note:  
+The initial and the target position co-ordinates of Knight have been given accoring to 1-base indexing.
+
+### Code
+
+```
+int minStepToReachTarget(vector<int>&KnightPos,vector<int>&TargetPos,int n)
+	{
+	    const int dx[] = { -2, -2, -1, -1, 1, 1, 2, 2};
+        const int dy[] = {1, -1, 2, -2, 2, -2, 1, -1};
+	    vector<vector<int>>dis(n, vector<int>(n, 0));
+        int hx = KnightPos[0] - 1, hy = KnightPos[1] - 1, tx = TargetPos[0] - 1, ty = TargetPos[1] - 1;
+        queue<pair<int,int>>q;
+        dis[hx][hy] = 1;
+        q.push(pair<int,int>(hx, hy));
+        while (!q.empty()) {
+            auto cur = q.front();
+            q.pop();
+            int cx = cur.first, cy = cur.second;
+            for (int i = 0; i < 8; i++) {
+                if (cx + dx[i] >= 0 and cx + dx[i] < n and cy + dy[i] >= 0 and cy + dy[i] < n and dis[cx + dx[i]][cy + dy[i]] == 0) {
+                dis[cx + dx[i]][cy + dy[i]] = dis[cx][cy] + 1;
+                q.push(pair<int,int>(cx + dx[i], cy + dy[i]));
+            }
+        }
+    }
+        return dis[tx][ty]-1;
+	}
+```
+
+# Find if there is a path of more than k length from a source
+
+Given a graph, a source vertex in the graph and a number k, find if there is a simple path (without any cycle) starting from given source and ending at any other vertex such that the distance from source to that vertex is atleast ‘k’ length.
+
+### Code
+
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define nl "\n"
+#define mod 1000000007
+#define vvi vector<vector<int>>
+#define vi vector<int>
+#define all(v) v.begin(), v.end()
+#define pii pair<int,int>
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(0);                       \
+    cout.tie(0);
+const int inf = 2e18;
+const int dx4[] = { -1, 0, 1, 0};
+const int dy4[] = {0, 1, 0, -1};
+void precompute() {
+}
+bool dfs(int src,int k,vector<pair<int,int>>g[],vector<bool>&vis){
+    vis[src]=true;
+    if(k<=0) return true;
+    for(auto x:g[src]){
+        int u=x.first;
+        int w=x.second;
+        if(vis[u]==true) continue;
+        if(w>=k) return true;
+        if(dfs(u,k-w,g,vis)) return true;
+    }
+    vis[src]=false;
+    return false;
+}
+void solve() {
+    int v,e;
+    cin>>v>>e;
+    int k; cin>>k;
+    vector<pair<int,int>>g[v+1];
+    for(int i=0; i<e; i++){
+        int x,y,w;
+        cin>>x>>y>>w;
+        g[x].push_back({y,w});
+        g[y].push_back({x,w});
+    }
+    vector<bool>vis(v+1,false);
+    cout<<dfs(1,k,g,vis);
+}
+int32_t main()
+{
+    fast
+    int t = 1;
+    //cin >> t;
+    precompute();
+    for (int i = 1; i <= t; i++)
+        solve();
+}
+
+```
+# Euler Tour
+A Tree is a generalization of connected graph where it has N nodes that will have exactly N-1 edges, i.e one edge between every pair of vertices. Find the Euler tour of tree represented by adjacency list.  
+```
+Euler tour is defined as a way of traversing tree such that each vertex is added to the tour when we visit it (either moving down from parent vertex or returning from child vertex). We start from root and reach back to root after visiting all vertices.
+```
+## Oliver and the Game (HackerEarth)
+### Code
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define nl "\n"
+#define mod 1000000007
+#define vvi vector<vector<int>>
+#define vi vector<int>
+#define all(v) v.begin(), v.end()
+#define pii pair<int,int>
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(0);                       \
+    cout.tie(0);
+const int inf = 2e18;
+const int dx4[] = { -1, 0, 1, 0};
+const int dy4[] = {0, 1, 0, -1};
+void precompute() {
+}
+void eulerTour(int node, vector<int>adj[], vector<int>&vis, vector<int>&inTime, vector<int>&outTime, int &timer) {
+    vis[node] = 1;
+    inTime[node] = timer++;
+    for (auto nbr : adj[node]) {
+        if (!vis[nbr]) eulerTour(nbr, adj, vis, inTime, outTime, timer);
+    }
+    outTime[node] = timer++;
+}
+bool check(int x, int y, vector<int>&inTime, vector<int>&outTime) {
+    // Y lies in subgraph of X or not
+    return inTime[y] > inTime[x] and outTime[y] < outTime[x];
+}
+void solve() {
+    int n; cin >> n;
+    vector<int>inTime(n + 1, 0);
+    vector<int>outTime(n + 1, 0);
+    int timer = 1;
+    vector<int>adj[n + 1];
+    for (int i = 1; i < n; i++) {
+        int x, y; cin >> x >> y;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
+    }
+    int src = 1;
+    vector<int>vis(n + 1);
+    eulerTour(src, adj, vis, inTime, outTime, timer);
+    int q; cin >> q;
+    while (q--) {
+        int p, x, y;
+        cin >> p >> x >> y;
+        if (p) {
+            if (check(y, x, inTime, outTime)) cout << "YES\n";
+            else cout << "NO\n";
+        }
+        else {
+            if (check(x, y, inTime, outTime)) cout << "YES\n";
+            else cout << "NO\n";
+        }
+    }
+}
+int32_t main()
+{
+    fast
+    int t = 1;
+    //cin >> t;
+    precompute();
+    for (int i = 1; i <= t; i++)
+        solve();
+}
+
+```

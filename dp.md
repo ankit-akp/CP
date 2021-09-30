@@ -3,12 +3,13 @@
 Step 1: In order to solve DP problem , think for recurrence relation. If you know the recurrence relation for the problem then your problem will be solved easily.  
 Step 2: Recursion + Memoization  
 Step 3: Find the relation between problem and subproblem in order to fill dp table.  
-DP table bharne ke liye pehle ye dekh lo ki dp[n][m](Final answer) kaise fill hoga. Isse idea lg jayega ki table kaise fill hona h. Phir dp[i][j] ke liye aaram se code likh payenge.  
+DP table bharne ke liye pehle ye dekh lo ki dp[n][m](Final answer) kaise fill hoga. Isse idea lg jayega ki table kaise fill hona h. Phir dp[i][j] ke liye aaram se code likh payenge.
 
 # Fibonacci
 
 # Longest Increasing Subsequence
-output[i] will store length of LIS ending at index i  
+
+output[i] will store length of LIS ending at index i
 
 ```
 #include <bits/stdc++.h>
@@ -44,26 +45,36 @@ int32_t main()
         solve();
 }
 ```
+
 # Largest Bitonic Subsequence
+
 You are given an array of positive integers as input. Write a code to return the length of the largest such subsequence in which the values are arranged first in strictly ascending order and then in strictly descending order.  
 Such a subsequence is known as bitonic subsequence. A purely increasing or purely decreasing subsequence will also be considered as a bitonic sequence with the other part empty.  
-Note that the elements in bitonic subsequence need not be consecutive in the given array but the order should remain same.  
+Note that the elements in bitonic subsequence need not be consecutive in the given array but the order should remain same.
+
 ### Input Format
+
 ```
-First line will contain T (number of test case), each test is consists of two lines. 
+First line will contain T (number of test case), each test is consists of two lines.
 Line 1 : A positive Integer N, i.e., the size of array
-Line 2 : N space-separated integers as elements of the array 
+Line 2 : N space-separated integers as elements of the array
 ```
+
 ### Output Format
+
 ```
 Length of Largest Bitonic subsequence for each test case in a newline.
 ```
+
 ### Constraints
+
 ```
 1 <= T <= 10
 1<= N <= 5000
 ```
+
 ### Code
+
 ```
 #include <bits/stdc++.h>
 using namespace std;
@@ -153,7 +164,7 @@ int32_t main()
 You are given an infinite supply of coins of each of denominations D = {D0, D1, D2, D3, ...... Dn-1}. You need to figure out the total number of ways W, in which you can make a change for Value V using coins of denominations D.
 Note : Return 0, if change isn't possible.
 W can be pretty large so output the answer % mod(10^9 + 7)
-Note: If deno[i]+deno[i+1]<=deno[i+2] then greedy will work otherwise we have to go for dp solution.  
+Note: If deno[i]+deno[i+1]<=deno[i+2] then greedy will work otherwise we have to go for dp solution.
 
 ### Input Format
 
@@ -245,8 +256,10 @@ int32_t main()
         solve();
 }
 ```
+
 ### Note
-Difference between staircase problem and coinchange problem is 1 1 2 , 2 1 1 these permutation is treated as different in staircase problem but in coinchange problem they will be consider as same permutation.  
+
+Difference between staircase problem and coinchange problem is 1 1 2 , 2 1 1 these permutation is treated as different in staircase problem but in coinchange problem they will be consider as same permutation.
 
 # Min Cost
 
@@ -400,7 +413,8 @@ int32_t main()
 
 Samantha and Sam are playing a numbers game. Given a number as a string, no leading zeros, determine the sum of all integer values of substrings of the string.
 
-Given an integer as a string, sum all of its substrings cast as integers. As the number may become large, return the value modulo 1000000007.  
+Given an integer as a string, sum all of its substrings cast as integers. As the number may become large, return the value modulo 1000000007.
+
 ```
 #define mod 1000000007
 int substrings(string str) {
@@ -885,7 +899,9 @@ int32_t main()
 ```
 
 ## Iterative Code
+
 Here dp[i][j] means end se s1 me i characters reh rahe h aur s2 me end se j character reh rahe h.
+
 ```
 #include <bits/stdc++.h>
 using namespace std;
@@ -1497,4 +1513,62 @@ int32_t main()
     for (int i = 1; i <= t; i++)
         solve();
 }
+```
+
+# Travelling Salesman Problem
+
+Given a set of cities and distance between every pair of cities, the problem is to find the shortest possible route that visits every city exactly once and returns to the starting point.
+
+### Code
+
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define nl "\n"
+#define mod 1000000007
+#define vvi vector<vector<int>>
+#define vi vector<int>
+#define all(v) v.begin(), v.end()
+#define pii pair<int,int>
+#define fast                          \
+   ios_base::sync_with_stdio(false); \
+   cin.tie(0);                       \
+   cout.tie(0);
+const int inf = 2e18;
+const int dx4[] = { -1, 0, 1, 0};
+const int dy4[] = {0, 1, 0, -1};
+void precompute() {
+}
+int tsp(int mask, int pos, int n, vector<vector<int>>& dist, vector<vector<int>> &dp) {
+   if (mask == ((1 << n) - 1)) return dist[pos][0];
+   int ans = inf;
+   if (dp[mask][pos] != -1) return dp[mask][pos];
+   for (int city = 0; city < n; city++) {
+       if ((mask & (1 << city)) == 0) {
+           int newAns = dist[pos][city] + tsp(mask | (1 << city), city, n, dist, dp);
+           ans = min(ans, newAns);
+       }
+   }
+   return dp[mask][pos] = ans;
+}
+void solve() {
+   int n; cin >> n;
+   vector<vector<int>>dist(n, vector<int>(n, 0));
+   vector<vector<int>>dp(1 << n, vector<int>(n, -1));
+   for (int i = 0; i < n; i++) {
+       for (int j = 0; j < n; j++) cin >> dist[i][j];
+   }
+   cout << tsp(1, 0, n, dist, dp);
+}
+int32_t main()
+{
+   fast
+   int t = 1;
+   //cin >> t;
+   precompute();
+   for (int i = 1; i <= t; i++)
+       solve();
+}
+
 ```
