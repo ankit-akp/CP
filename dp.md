@@ -7,6 +7,44 @@ DP table bharne ke liye pehle ye dekh lo ki dp[n][m](Final answer) kaise fill ho
 
 # Fibonacci
 
+# Alpha Code
+
+### Code
+
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define nl "\n"
+#define mod 1000000007
+void solve() {
+    string str; cin >> str;
+    int n = (int)str.size();
+    vector<int>dp(n + 1, 0);
+    dp[0] = 1;
+    dp[1] = 1;
+    for (int i = 2; i <= n; i++) {
+        int f = str[i - 2] - '0';
+        int s = str[i - 1] - '0';
+        if(f==0){
+            cout<<0<<nl;
+            return;
+        }
+        dp[i] = dp[i - 1] % mod;
+        if ((f * 10 + s) < 27) dp[i] = (dp[i] + dp[i - 2]) % mod;
+    }
+    cout << dp[n] << nl;
+}
+
+int32_t main()
+{
+    int t = 1;
+    cin >> t;
+    for (int i = 1; i <= t; i++)
+        solve();
+}
+```
+
 # Longest Increasing Subsequence
 
 output[i] will store length of LIS ending at index i
@@ -307,7 +345,7 @@ Note: You can only move either down or right at any point in time.
         for(int i=c-2; i>=0; i--) dp[r-1][i]=dp[r-1][i+1]+input[r-1][i];
         for(int i=r-2; i>=0; i--){
             for(int j=c-2; j>=0; j--){
-                dp[i][j]=input[i][j]+min(dp[i+1][j],dp[i][j+1]);
+                dp[i][j]=input[i][j]+min(dp[i+1][j+1],min(dp[i+1][j],dp[i][j+1]));
             }
         }
        return dp[0][0];
