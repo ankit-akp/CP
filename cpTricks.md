@@ -266,3 +266,283 @@ pii minSubarray(vi &a, int n) {
     return pii(s, e);
 }
 ```
+
+# Same Interger
+
+You are given three integers A, B and C. Find the minimum number of operations required to make A, B and C all equal by repeatedly performing the following two kinds of operations in any order:
+
+Choose two among A, B and C, then increase both by 1.  
+Choose one among A, B and C, then increase it by 2.  
+It can be proved that we can always make A, B and C all equal by repeatedly performing these operations.
+
+### Code
+
+```
+void solve(int T)
+    {
+        int a, b, c; cin >> a >> b >> c;
+        int s = a + b + c;
+        int x = max(a, max(b, c));
+        int ans = 0;
+        while (true) {
+            if ((3 * x - s) & 1) x++;
+            else {
+                if (3 * x % 2 == s % 2) {
+                    ans = (3 * x - s) / 2;
+                    break;
+                }
+                else x++;
+            }
+        }
+        cout << ans;
+    }
+```
+
+### Editorial
+
+```
+Suppose that when you finish the operations, all integers are X. Since the sum of three integers always
+increases by two in each operation, the total number of operations is (3X − (A + B + C))/2. Thus, we
+want to minimize X.
+Let M be the maximum of A, B, C. Since we can never decrease integers, X ≥ M must hold. Also,
+since we can never change the parity of sum of three integers, 3X ≡ A+B +C (mod 2) must hold. (It’s
+easy to see that these are sufficient conditions).
+Therefore,
+• If 3M ≡ A + B + C (mod 2), X = M.
+• Otherwise, X = M + 1.
+and we should print (3X − (A + B + C))/2.
+```
+
+# Special Numbers
+
+Theofanis really likes sequences of positive integers, thus his teacher (Yeltsa Kcir) gave him a problem about a sequence that consists of only special numbers.
+
+Let's call a positive number special if it can be written as a sum of different non-negative powers of n. For example, for n=4 number 17 is special, because it can be written as 40+42=1+16=17, but 9 is not.
+
+Theofanis asks you to help him find the k-th special number if they are sorted in increasing order. Since this number may be too large, output it modulo 109+7.
+
+### Code
+
+```
+int fastPower(int a, int b, int m = mod) {
+    int res = 1;
+    while (b) {
+        if (b & 1) res = (res % m * a % m) % m;
+        a = (a % m * a % m) % m;
+        b = b >> 1;
+    }
+    return res;
+}
+void solve(int T)
+{
+    int n, k; cin >> n >> k;
+    int ans = 0, cnt = 0;
+    while (k > 0) {
+        int d = k % 2;
+        if (d) ans = (ans % mod + fastPower(n, cnt)) % mod;
+        cnt++;
+        k = k / 2;
+    }
+    cout << ans << nl;
+}
+```
+
+### Editorial
+
+```
+The problem is the same as finding the k-th number that in base n has only zeros and ones.
+So you can write k in binary system and instead of powers of 2 add powers of n.
+```
+
+# Finding maximum 'k' such that its modulus with each array element is same
+
+```
+Step 1. Find out the difference 'd' between maximum and minimum element of the array
+Step 2. Find out all the divisors of 'd'
+Step 3. For each divisor check if arr[i]%divisor(d) is same or not .if it is same print it.
+```
+
+### Code
+
+```
+int printEqualModNumbers (vi &arr, int n)
+{
+    // sort the numbers
+    sort(all(arr));
+
+    // max difference will be the difference between
+    // first and last element of sorted array
+    int d = arr[n - 1] - arr[0];
+
+    // Case when all the array elements are same
+    if (d == 0) {
+        return -1;
+    }
+
+    int ans = 1;
+    vector <int> v;
+    for (int i = 1; i * i <= d; i++)
+    {
+        if (d % i == 0)
+        {
+            v.push_back(i);
+            if (i != d / i)
+                v.push_back(d / i);
+        }
+    }
+    // cout << v << nl;
+    for (int i = 0; i < v.size(); i++)
+    {
+        int temp = ((arr[0] % v[i]) + v[i]) % v[i];
+        int j;
+        for (j = 1; j < n; j++)
+            if (((arr[j] % v[i]) + v[i]) % v[i] != temp)
+                break;
+        if (j == n) ans = max(ans, v[i]);
+        // cout << v[i] <<" ";
+    }
+    return ans;
+}
+```
+# Swapping Type
+Hemose has an array of n integers. He wants Samez to sort the array in the non-decreasing order. Since it would be a too easy problem for Samez, Hemose allows Samez to use only the following operation:  
+
+Choose indices i and j such that 1≤i,j≤n, and |i−j|≥x. Then, swap elements ai and aj.  
+
+Can you tell Samez if there's a way to sort the array in the non-decreasing order by using the operation written above some finite number of times (possibly 0)?    
+
+### Editorial
+```
+The answer is always "YES" If n≥2∗x because you can reorder the array as you want.
+
+Otherwise, You can swap the first n−x elements and the last n−x elements, so you can reorder them as you want but the rest have to stay in their positions in the sorted array.
+
+So if elements in the subarray [n−x+1,x] in the original array are in their same position after sorting the array then the answer is YES, otherwise NO.
+```
+### 
+```
+void solve(int T)
+{
+    int n, x; cin >> n >> x;
+    vi a(n); cin >> a;
+    if (2 * x <= n) cout << "YES\n";
+    else {
+        vi cur;
+        for (int i = n - x; i < x; i++) {
+            cur.pb(a[i]);
+        }
+        sort(all(a));
+        // cout << cur << nl;
+        int k = 0;
+        for (int i = n - x; i < x; i++) {
+            if (a[i] != cur[k++]) {
+                cout << "NO\n";
+                return;
+            }
+        }
+        cout << "YES\n";
+    }
+}
+
+```
+
+# TEMPLATE
+```
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define ull unsigned long long
+#define ld long double
+#define eb emplace_back
+#define pb push_back
+#define pf push_front
+#define F first
+#define S second
+#define mp make_pair
+#define vi vector<int>
+#define vvi vector<vector<int>>
+#define vs vector<string>
+#define vpii vector<pii>
+#define all(v) v.begin(), v.end()
+#define allcomp(v) v.begin(), v.end(), comp
+#define pii pair<int, int>
+#define sz(v) ((int)(v).size())
+#define init(arr, val) memset(arr, val, sizeof(arr))
+#define rep(i, a, b) for (int i = a; i < b; i++)
+#define pp(n) printf("%.10Lf", n);
+#define nl "\n"
+#define ppc        __builtin_popcount
+#define ppcll      __builtin_popcountll
+const int special_prime = 982451653l; // The 50,000,000th prime number
+const int mod = 1e9 + 7; // Prime Number
+const int inf = 2e18;
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(0);                       \
+    cout.tie(0);
+/// Tip : If a and b are positive integers ; we may say - ceil (a/b) = 1 + floor ( (a-1)/b )=(a+b-1)/b
+
+//VECTOR
+template <class T>
+istream &operator>>(istream &in, vector<T> &a)
+{
+    for (auto &i : a)
+        cin >> i;
+    return in;
+}
+template <class T>
+ostream &operator<<(ostream &out, const vector<T> &a)
+{
+    for (auto &i : a)
+        cout << i << " ";
+    return out;
+}
+
+// Mathematical Function
+int power(int x, int y, int p = mod)
+{
+    unsigned long long res = 1; // Initialize result
+
+    x = x % p;
+    while (y > 0)
+    {
+        if (y & 1)
+            res = (res * x) % p;
+
+        y = y >> 1;
+        x = (x * x) % p;
+    }
+    return res;
+}
+
+// Returns n^(-1) mod p
+int modInverse(int n, int p = mod)
+{
+    return power(n, p - 2, p);
+}
+
+void precompute() {
+}
+
+
+void solve(int T)
+{
+
+}
+
+int32_t main()
+{
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    fast
+    int t = 1;
+    cin >> t;
+    //cin >> ws;
+    precompute();
+    cout << setprecision(8) << fixed;
+
+    for (int i = 1; i <= t; i++)
+        solve(i);
+}
+```
