@@ -1,3 +1,105 @@
+# TEMPLATE
+
+```
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define ull unsigned long long
+#define ld long double
+#define eb emplace_back
+#define pb push_back
+#define pf push_front
+#define F first
+#define S second
+#define mp make_pair
+#define vi vector<int>
+#define vvi vector<vector<int>>
+#define vs vector<string>
+#define vpii vector<pii>
+#define all(v) v.begin(), v.end()
+#define allcomp(v) v.begin(), v.end(), comp
+#define pii pair<int, int>
+#define sz(v) ((int)(v).size())
+#define init(arr, val) memset(arr, val, sizeof(arr))
+#define rep(i, a, b) for (int i = a; i < b; i++)
+#define pp(n) printf("%.10Lf", n);
+#define nl "\n"
+#define ppc        __builtin_popcount
+#define ppcll      __builtin_popcountll
+const int special_prime = 982451653l; // The 50,000,000th prime number
+const int mod = 1e9 + 7; // Prime Number
+const int inf = 2e18;
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(0);                       \
+    cout.tie(0);
+/// Tip : If a and b are positive integers ; we may say - ceil (a/b) = 1 + floor ( (a-1)/b )=(a+b-1)/b
+
+//VECTOR
+template <class T>
+istream &operator>>(istream &in, vector<T> &a)
+{
+    for (auto &i : a)
+        cin >> i;
+    return in;
+}
+template <class T>
+ostream &operator<<(ostream &out, const vector<T> &a)
+{
+    for (auto &i : a)
+        cout << i << " ";
+    return out;
+}
+
+// Mathematical Function
+int power(int x, int y, int p = mod)
+{
+    unsigned long long res = 1; // Initialize result
+
+    x = x % p;
+    while (y > 0)
+    {
+        if (y & 1)
+            res = (res * x) % p;
+
+        y = y >> 1;
+        x = (x * x) % p;
+    }
+    return res;
+}
+
+// Returns n^(-1) mod p
+int modInverse(int n, int p = mod)
+{
+    return power(n, p - 2, p);
+}
+
+void precompute() {
+}
+
+
+void solve(int T)
+{
+
+}
+
+int32_t main()
+{
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    fast
+    int t = 1;
+    cin >> t;
+    //cin >> ws;
+    precompute();
+    cout << setprecision(8) << fixed;
+
+    for (int i = 1; i <= t; i++)
+        solve(i);
+}
+```
+
 # Roy and Coin Boxes( Query Trick)
 
 Roy has N coin boxes numbered from 1 to N.
@@ -404,14 +506,17 @@ int printEqualModNumbers (vi &arr, int n)
     return ans;
 }
 ```
+
 # Swapping Type
-Hemose has an array of n integers. He wants Samez to sort the array in the non-decreasing order. Since it would be a too easy problem for Samez, Hemose allows Samez to use only the following operation:  
 
-Choose indices i and j such that 1≤i,j≤n, and |i−j|≥x. Then, swap elements ai and aj.  
+Hemose has an array of n integers. He wants Samez to sort the array in the non-decreasing order. Since it would be a too easy problem for Samez, Hemose allows Samez to use only the following operation:
 
-Can you tell Samez if there's a way to sort the array in the non-decreasing order by using the operation written above some finite number of times (possibly 0)?    
+Choose indices i and j such that 1≤i,j≤n, and |i−j|≥x. Then, swap elements ai and aj.
+
+Can you tell Samez if there's a way to sort the array in the non-decreasing order by using the operation written above some finite number of times (possibly 0)?
 
 ### Editorial
+
 ```
 The answer is always "YES" If n≥2∗x because you can reorder the array as you want.
 
@@ -419,7 +524,9 @@ Otherwise, You can swap the first n−x elements and the last n−x elements, so
 
 So if elements in the subarray [n−x+1,x] in the original array are in their same position after sorting the array then the answer is YES, otherwise NO.
 ```
-### 
+
+### Code
+
 ```
 void solve(int T)
 {
@@ -446,103 +553,46 @@ void solve(int T)
 
 ```
 
-# TEMPLATE
+# XOR of first n natural number
+
 ```
-#include <bits/stdc++.h>
-using namespace std;
+1- Find the remainder of n by moduling it with 4.
+2- If rem = 0, then xor will be same as n.
+3- If rem = 1, then xor will be 1.
+4- If rem = 2, then xor will be n+1.
+5- If rem = 3 ,then xor will be 0.
+```
 
-#define int long long
-#define ull unsigned long long
-#define ld long double
-#define eb emplace_back
-#define pb push_back
-#define pf push_front
-#define F first
-#define S second
-#define mp make_pair
-#define vi vector<int>
-#define vvi vector<vector<int>>
-#define vs vector<string>
-#define vpii vector<pii>
-#define all(v) v.begin(), v.end()
-#define allcomp(v) v.begin(), v.end(), comp
-#define pii pair<int, int>
-#define sz(v) ((int)(v).size())
-#define init(arr, val) memset(arr, val, sizeof(arr))
-#define rep(i, a, b) for (int i = a; i < b; i++)
-#define pp(n) printf("%.10Lf", n);
-#define nl "\n"
-#define ppc        __builtin_popcount
-#define ppcll      __builtin_popcountll
-const int special_prime = 982451653l; // The 50,000,000th prime number
-const int mod = 1e9 + 7; // Prime Number
-const int inf = 2e18;
-#define fast                          \
-    ios_base::sync_with_stdio(false); \
-    cin.tie(0);                       \
-    cout.tie(0);
-/// Tip : If a and b are positive integers ; we may say - ceil (a/b) = 1 + floor ( (a-1)/b )=(a+b-1)/b
+# To find k such that it minimises the maximum absolute difference between k and all other values.
 
-//VECTOR
-template <class T>
-istream &operator>>(istream &in, vector<T> &a)
-{
-    for (auto &i : a)
-        cin >> i;
-    return in;
-}
-template <class T>
-ostream &operator<<(ostream &out, const vector<T> &a)
-{
-    for (auto &i : a)
-        cout << i << " ";
-    return out;
-}
+The best k is equal to (minimum_value_of_all_the_values + maximum_value_of_all_the_values) / 2.
 
-// Mathematical Function
-int power(int x, int y, int p = mod)
-{
-    unsigned long long res = 1; // Initialize result
+# Finding superior among n in O(n)
 
-    x = x % p;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = (res * x) % p;
+```
+https://codeforces.com/problemset/problem/1552/B
+```
 
-        y = y >> 1;
-        x = (x * x) % p;
-    }
-    return res;
-}
+## Editorial
 
-// Returns n^(-1) mod p
-int modInverse(int n, int p = mod)
-{
-    return power(n, p - 2, p);
-}
+```
+First of all, observe that athlete i is superior to athlete j if and only if athlete j is not superior to athlete i.
 
-void precompute() {
-}
+The issue is, of course, that we cannot iterate over all pairs of athletes as there are (n2)=O(n2) pairs, which is too much to fit in the time limit.
 
+Notice that there can be at most one athlete who is likely to get the gold medal (if there were 2, one would not be superior to the other which is a contradiction).
 
-void solve(int T)
-{
+Let us describe the algorithm. We iterate over the athletes from 1 to n, keeping a possible winner w.
 
-}
+When we process i, we check whether w is superior to i. In that case, clearly i is not the one who is likely to get the gold medal and we do nothing. On the other hand, if i is superior to w, we deduce that w cannot be the athlete who is likely to get the gold medal. In this case, we assign w:=i and we proceed.
 
-int32_t main()
-{
-    // freopen("input.txt", "r", stdin);
-    // freopen("output.txt", "w", stdout);
-    fast
-    int t = 1;
-    cin >> t;
-    //cin >> ws;
-    precompute();
-    cout << setprecision(8) << fixed;
+Notice that, when we have finished processing athletes, if there is an athlete superior to everyone else it is for sure w. Finally, we check whether w is superior to everyone else or not.
+```
 
-    for (int i = 1; i <= t; i++)
-        solve(i);
-}
+# Keep in mind
+
+```
+1. Let suppose a number x, if we take Bitwise & of x with another number y, the resultant will be less than or equal to x i.e x&y≤ x.
+2. a + b = a ^ b + 2 * (a & b).
+3. how many ways are there to find a pair of non-negative integers whose sum is n? There are clearly n+1 ways: n+0,(n−1)+1,(n−2)+2,…,0+n.
 ```
